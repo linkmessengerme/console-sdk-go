@@ -21,11 +21,11 @@ type OTPService struct {
 	client *Client
 }
 
-// scopeOTP — SDK обслуживает только OTP; app-токен запрашивается с этим scope.
+// scopeOTP — the SDK serves only OTP; the app token is requested with this scope.
 const scopeOTP = "otp"
 
-// NewClient — программное создание из client_id + PEM приватного ключа OAuth-клиента.
-// Базовый URL передаётся через link.WithBaseURL. Предпочтительно — NewClientFromFile.
+// NewClient builds a client programmatically from a client_id + the OAuth client's PEM
+// private key. The base URL is passed via link.WithBaseURL. Prefer NewClientFromFile.
 func NewClient(clientID, privateKeyPEM string, opts ...Option) (*Client, error) {
 	options := defaultClientOptions()
 	for _, opt := range opts {
@@ -67,8 +67,8 @@ func newClientFromCredentials(creds *credentials.Credentials, opts ...Option) (*
 		}
 	}
 	if options.baseURL != "" {
-		// Override меняет адрес, куда шлём (api_base_url + token_url); issuer (aud
-		// токена = идентичность AS) остаётся из key-file.
+		// The override changes where requests go (api_base_url + token_url); the issuer
+		// (token aud = the AS identity) is kept from the key-file.
 		creds = cloneCredentials(creds)
 		creds.APIBaseURL = options.baseURL
 		creds.TokenURL = strings.TrimRight(options.baseURL, "/") + "/oauth/v1/token"

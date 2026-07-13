@@ -23,7 +23,7 @@ func testKeyPEM(t *testing.T) string {
 	return string(pem.EncodeToMemory(&pem.Block{Type: "PRIVATE KEY", Bytes: der}))
 }
 
-// keyFileJSON строит валидный key-file; overrides со значением nil удаляют поле.
+// keyFileJSON builds a valid key-file; overrides with a nil value delete that field.
 func keyFileJSON(t *testing.T, overrides map[string]any) []byte {
 	t.Helper()
 	m := map[string]any{

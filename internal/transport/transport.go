@@ -38,12 +38,12 @@ type Client struct {
 
 type Config struct {
 	HTTPClient *http.Client
-	BaseURL    string // api_base_url — база продуктовых вызовов (/sdk/v1/...)
+	BaseURL    string // api_base_url — base for product calls (/sdk/v1/...)
 	TokenURL   string // .../oauth/v1/token
 	ClientID   string
 	Issuer     string // aud client_assertion
 	PrivateKey ed25519.PrivateKey
-	Scope      string // запрашиваемый scope app-токена (напр. "otp")
+	Scope      string // requested scope of the app token (e.g. "otp")
 	UserAgent  string
 	Retry      RetryConfig
 	Now        func() time.Time
@@ -139,8 +139,8 @@ func (c *Client) doOnce(ctx context.Context, method, path string, body []byte, o
 	if err != nil {
 		return err
 	}
-	// Токен мог истечь/быть отозван между проактивным refresh и вызовом — один авто-refresh
-	// (модель Firebase: приватный ключ на бэке, перевыпуск в любой момент).
+	// The token may have expired or been revoked between the proactive refresh and this
+	// call — do a single auto-refresh (Firebase model: private key on the backend, re-mint anytime).
 	if resp.StatusCode == http.StatusUnauthorized {
 		c.tokens.Invalidate()
 		newToken, terr := c.tokens.Token(ctx)

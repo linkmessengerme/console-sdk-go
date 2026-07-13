@@ -12,24 +12,24 @@ import (
 	"strings"
 )
 
-// TypeOAuthClient — тип скачиваемого key-file (OAuth-клиент «в стиле Google
-// service-account»): приватный ключ отдаётся один раз, мы храним только публичный.
+// TypeOAuthClient is the type of the downloadable key-file (a "Google service-account
+// style" OAuth client): the private key is handed out once, we keep only the public one.
 const TypeOAuthClient = "link_oauth_client"
 
-// File — JSON key-file, скачиваемый из Console при создании/ротации OAuth-клиента.
-// См. docs/console/api-auth/design.md §3.
+// File is the JSON key-file downloaded from Console when an OAuth client is created or
+// rotated. See docs/console/api-auth/design.md §3.
 type File struct {
 	Type        string `json:"type"`
 	ClientID    string `json:"client_id"`
 	PrivateKey  string `json:"private_key"`  // PEM (PKCS#8 Ed25519)
 	TokenURL    string `json:"token_url"`    // .../oauth/v1/token
-	APIBaseURL  string `json:"api_base_url"` // база для продуктовых вызовов (/sdk/v1/...)
-	Issuer      string `json:"issuer"`       // aud для client_assertion
+	APIBaseURL  string `json:"api_base_url"` // base for product calls (/sdk/v1/...)
+	Issuer      string `json:"issuer"`       // aud for the client_assertion
 	Environment string `json:"environment"`  // live | test
 	ProjectID   string `json:"project_id"`
 }
 
-// Credentials — провалидированный key-file с уже распарсенным приватным ключом.
+// Credentials is a validated key-file with the private key already parsed.
 type Credentials struct {
 	Type        string
 	ClientID    string
@@ -87,8 +87,8 @@ func FromFile(f File) (*Credentials, error) {
 	return c, nil
 }
 
-// FromClientKey — программное создание из client_id + PEM приватного ключа + базового
-// URL (token_url/issuer выводятся из apiBaseURL, если не нужны кастомные).
+// FromClientKey builds credentials programmatically from a client_id + PEM private key +
+// base URL (token_url/issuer are derived from apiBaseURL when custom ones aren't needed).
 func FromClientKey(clientID, privateKeyPEM, apiBaseURL string) (*Credentials, error) {
 	priv, err := ParseEd25519PrivateKey(privateKeyPEM)
 	if err != nil {
@@ -109,8 +109,8 @@ func FromClientKey(clientID, privateKeyPEM, apiBaseURL string) (*Credentials, er
 	return c, nil
 }
 
-// normalizeAndValidateURLs выводит token_url/issuer из api_base_url, если они пусты,
-// и валидирует все URL.
+// normalizeAndValidateURLs derives token_url/issuer from api_base_url when they are empty,
+// and validates all URLs.
 func (c *Credentials) normalizeAndValidateURLs() error {
 	if err := ValidateURL(c.APIBaseURL, "api_base_url"); err != nil {
 		return err

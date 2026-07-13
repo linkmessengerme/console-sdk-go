@@ -18,7 +18,7 @@ import (
 
 const testClientID = "lk_client_test01"
 
-// testPrivPEM — свежий Ed25519 ключ (PKCS#8 PEM) для подписи client_assertion в тестах.
+// testPrivPEM — a fresh Ed25519 key (PKCS#8 PEM) used to sign the client_assertion in tests.
 var testPrivPEM = mustGenEd25519PEM()
 
 func mustGenEd25519PEM() string {
@@ -33,8 +33,8 @@ func mustGenEd25519PEM() string {
 	return string(pem.EncodeToMemory(&pem.Block{Type: "PRIVATE KEY", Bytes: der}))
 }
 
-// newOTPTestServer обслуживает token endpoint (отдаёт фиксированный access_token) и
-// продуктовый /sdk/v1/otp/send (передаётся вызывающим).
+// newOTPTestServer serves the token endpoint (returns a fixed access_token) and the
+// product /sdk/v1/otp/send endpoint (supplied by the caller).
 func newOTPTestServer(product http.HandlerFunc) *httptest.Server {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/oauth/v1/token", func(w http.ResponseWriter, _ *http.Request) {

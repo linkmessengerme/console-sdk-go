@@ -19,10 +19,10 @@ const (
 	tokenExpirySkew        = 30 * time.Second
 )
 
-// tokenSource минтит client_assertion (private_key_jwt) и обменивает его на короткий
-// app access_token через /oauth/v1/token (grant client_credentials), кэшируя токен до
-// истечения. Это модель Firebase Admin SDK: приватный ключ всегда на бэке → новый
-// токен в любой момент, refresh_token не нужен. См. docs/console/api-auth/design.md §4.1.
+// tokenSource mints a client_assertion (private_key_jwt) and exchanges it for a short-lived
+// app access_token via /oauth/v1/token (client_credentials grant), caching the token until
+// it expires. This is the Firebase Admin SDK model: the private key always stays on the
+// backend → a new token can be minted anytime, no refresh_token needed. See docs/console/api-auth/design.md §4.1.
 type tokenSource struct {
 	httpClient *http.Client
 	tokenURL   string
@@ -48,7 +48,7 @@ func (ts *tokenSource) Token(ctx context.Context) (string, error) {
 	return ts.refreshLocked(ctx, now)
 }
 
-// Invalidate сбрасывает кэш — вызывается при 401, чтобы следующий запрос перевыпустил токен.
+// Invalidate clears the cache — called on a 401 so the next request re-mints the token.
 func (ts *tokenSource) Invalidate() {
 	ts.mu.Lock()
 	ts.token = ""
@@ -120,8 +120,8 @@ func (ts *tokenSource) refreshLocked(ctx context.Context, now time.Time) (string
 	return ts.token, nil
 }
 
-// tokenError переводит ответ token endpoint в SDK-ошибку: 5xx/таймаут — retryable
-// (APIError со status), 4xx (invalid_client/…) — AuthenticationError (не retryable).
+// tokenError converts a token endpoint response into an SDK error: 5xx/timeout — retryable
+// (APIError with status), 4xx (invalid_client/…) — AuthenticationError (not retryable).
 func (ts *tokenSource) tokenError(status int, tr *tokenResponse, requestID string) error {
 	msg := tr.ErrorDesc
 	if msg == "" {

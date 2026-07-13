@@ -22,7 +22,7 @@ func mustGenKey() ed25519.PrivateKey {
 	return priv
 }
 
-// newServer обслуживает token endpoint (фиксированный access_token) + продуктовый путь.
+// newServer serves the token endpoint (fixed access_token) + the product path.
 func newServer(product http.HandlerFunc) *httptest.Server {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/oauth/v1/token", func(w http.ResponseWriter, _ *http.Request) {

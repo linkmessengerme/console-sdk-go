@@ -7,9 +7,9 @@ import (
 	"encoding/json"
 )
 
-// signEdDSAJWT собирает компактный JWS (EdDSA, header kid не нужен — клиентский
-// assertion верифицируется по зарегистрированному публичному ключу клиента).
-// Zero-dep: ручная сборка header.payload.signature вместо внешней JWT-библиотеки.
+// signEdDSAJWT assembles a compact JWS (EdDSA; no header kid needed — the client
+// assertion is verified against the client's registered public key).
+// Zero-dep: header.payload.signature is assembled by hand instead of pulling in a JWT library.
 func signEdDSAJWT(priv ed25519.PrivateKey, claims map[string]any) (string, error) {
 	header := b64url([]byte(`{"alg":"EdDSA","typ":"JWT"}`))
 	payloadJSON, err := json.Marshal(claims)
