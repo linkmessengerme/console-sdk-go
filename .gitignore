@@ -1,0 +1,6 @@
+/e2e
+*.test
+bin/
+/send_otp
+/examples/e2e/
+/examples/_otptest/
