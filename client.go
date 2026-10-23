@@ -11,7 +11,9 @@ import (
 )
 
 type Client struct {
-	OTP *OTPService
+	OTP      *OTPService
+	Login    *LoginService
+	MiniApps *MiniAppsService
 
 	transport *transport.Client
 	creds     *credentials.Credentials
@@ -21,7 +23,7 @@ type OTPService struct {
 	client *Client
 }
 
-// scopeOTP — the SDK serves only OTP; the app token is requested with this scope.
+// App tokens serve OTP. UserInfo receives its own user token per call.
 const scopeOTP = "otp"
 
 // NewClient builds a client programmatically from a client_id + the OAuth client's PEM
@@ -110,6 +112,8 @@ func newClient(creds *credentials.Credentials, options clientOptions) (*Client, 
 	}
 	c := &Client{transport: tr, creds: cloneCredentials(creds)}
 	c.OTP = &OTPService{client: c}
+	c.Login = &LoginService{transport: tr}
+	c.MiniApps = &MiniAppsService{transport: tr}
 	return c, nil
 }
 
