@@ -14,6 +14,7 @@ type Client struct {
 	OTP      *OTPService
 	Login    *LoginService
 	MiniApps *MiniAppsService
+	Payments *PaymentsService
 
 	transport *transport.Client
 	creds     *credentials.Credentials
@@ -23,8 +24,11 @@ type OTPService struct {
 	client *Client
 }
 
-// App tokens serve OTP. UserInfo receives its own user token per call.
-const scopeOTP = "otp"
+// App token caches are isolated per service scope. UserInfo uses user tokens.
+const (
+	scopeOTP      = "otp"
+	scopePayments = "payments"
+)
 
 // NewClient builds a client programmatically from a client_id + the OAuth client's PEM
 // private key. The base URL is passed via link.WithBaseURL. Prefer NewClientFromFile.
@@ -95,7 +99,7 @@ func newClient(creds *credentials.Credentials, options clientOptions) (*Client, 
 	if options.userAgentSuffix != "" {
 		userAgent += " " + options.userAgentSuffix
 	}
-	tr, err := transport.New(transport.Config{
+	cfg := transport.Config{
 		HTTPClient: httpClient,
 		BaseURL:    creds.APIBaseURL,
 		TokenURL:   creds.TokenURL,
@@ -106,7 +110,13 @@ func newClient(creds *credentials.Credentials, options clientOptions) (*Client, 
 		UserAgent:  userAgent,
 		Retry:      options.retry.toTransport(),
 		Now:        options.now,
-	})
+	}
+	tr, err := transport.New(cfg)
+	if err != nil {
+		return nil, err
+	}
+	cfg.Scope = scopePayments
+	paymentsTransport, err := transport.New(cfg)
 	if err != nil {
 		return nil, err
 	}
@@ -114,6 +124,7 @@ func newClient(creds *credentials.Credentials, options clientOptions) (*Client, 
 	c.OTP = &OTPService{client: c}
 	c.Login = &LoginService{transport: tr}
 	c.MiniApps = &MiniAppsService{transport: tr}
+	c.Payments = &PaymentsService{transport: paymentsTransport}
 	return c, nil
 }
 

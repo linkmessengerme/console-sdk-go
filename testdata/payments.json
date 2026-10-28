@@ -1,0 +1,440 @@
+{
+  "business": {
+    "CancelOrder": [
+      {
+        "result": "CANCEL_ORDER_RESULT_CODE_ORDER_EXPIRED",
+        "order": {
+          "order_id": "66666666-6666-4666-8666-666666666666",
+          "app_id": "33333333-3333-4333-8333-333333333333",
+          "environment": "ENVIRONMENT_TEST",
+          "merchant_order_id": "sdk-test-order",
+          "buyer_sub": "verified-buyer-sub",
+          "product": {
+            "sku": "coins-100",
+            "version": "9223372036854775807",
+            "name": "100 coins",
+            "kind": "PRODUCT_KIND_CONSUMABLE"
+          },
+          "offer": {
+            "offer_id": "77777777-7777-4777-8777-777777777777",
+            "version": "9223372036854775807",
+            "amount_minor": "9007199254740993",
+            "currency": "XTS",
+            "method": "test_method"
+          },
+          "status": "ORDER_STATUS_EXPIRED",
+          "fulfillment_status": "FULFILLMENT_STATUS_NOT_REQUESTED",
+          "created_at": "2026-10-28T00:00:00.123456789Z",
+          "expires_at": "2026-10-28T00:30:00.123456789Z",
+          "revision": "9007199254740993"
+        }
+      },
+      {
+        "result": "CANCEL_ORDER_RESULT_CODE_ALREADY_PAID",
+        "order": {
+          "order_id": "66666666-6666-4666-8666-666666666666",
+          "app_id": "33333333-3333-4333-8333-333333333333",
+          "environment": "ENVIRONMENT_TEST",
+          "merchant_order_id": "sdk-test-order",
+          "buyer_sub": "verified-buyer-sub",
+          "product": {
+            "sku": "coins-100",
+            "version": "9223372036854775807",
+            "name": "100 coins",
+            "kind": "PRODUCT_KIND_CONSUMABLE"
+          },
+          "offer": {
+            "offer_id": "77777777-7777-4777-8777-777777777777",
+            "version": "9223372036854775807",
+            "amount_minor": "9007199254740993",
+            "currency": "XTS",
+            "method": "test_method"
+          },
+          "status": "ORDER_STATUS_PAID",
+          "fulfillment_status": "FULFILLMENT_STATUS_FULFILLED",
+          "created_at": "2026-10-28T00:00:00.123456789Z",
+          "expires_at": "2026-10-28T00:30:00.123456789Z",
+          "revision": "9007199254740993",
+          "paid_at": "2026-10-28T00:00:00.123456789Z"
+        }
+      },
+      {
+        "result": "CANCEL_ORDER_RESULT_CODE_IDEMPOTENCY_CONFLICT"
+      },
+      {
+        "result": "CANCEL_ORDER_RESULT_CODE_ATTEMPT_IN_PROGRESS",
+        "order": {
+          "order_id": "66666666-6666-4666-8666-666666666666",
+          "app_id": "33333333-3333-4333-8333-333333333333",
+          "environment": "ENVIRONMENT_TEST",
+          "merchant_order_id": "sdk-test-order",
+          "buyer_sub": "verified-buyer-sub",
+          "product": {
+            "sku": "coins-100",
+            "version": "9223372036854775807",
+            "name": "100 coins",
+            "kind": "PRODUCT_KIND_CONSUMABLE"
+          },
+          "offer": {
+            "offer_id": "77777777-7777-4777-8777-777777777777",
+            "version": "9223372036854775807",
+            "amount_minor": "9007199254740993",
+            "currency": "XTS",
+            "method": "test_method"
+          },
+          "status": "ORDER_STATUS_PROCESSING",
+          "fulfillment_status": "FULFILLMENT_STATUS_NOT_REQUESTED",
+          "created_at": "2026-10-28T00:00:00.123456789Z",
+          "expires_at": "2026-10-28T00:30:00.123456789Z",
+          "revision": "9007199254740993"
+        }
+      },
+      {
+        "result": "CANCEL_ORDER_RESULT_CODE_CANCELLED",
+        "order": {
+          "order_id": "66666666-6666-4666-8666-666666666666",
+          "app_id": "33333333-3333-4333-8333-333333333333",
+          "environment": "ENVIRONMENT_TEST",
+          "merchant_order_id": "sdk-test-order",
+          "buyer_sub": "verified-buyer-sub",
+          "product": {
+            "sku": "coins-100",
+            "version": "9223372036854775807",
+            "name": "100 coins",
+            "kind": "PRODUCT_KIND_CONSUMABLE"
+          },
+          "offer": {
+            "offer_id": "77777777-7777-4777-8777-777777777777",
+            "version": "9223372036854775807",
+            "amount_minor": "9007199254740993",
+            "currency": "XTS",
+            "method": "test_method"
+          },
+          "status": "ORDER_STATUS_CANCELLED",
+          "fulfillment_status": "FULFILLMENT_STATUS_NOT_REQUESTED",
+          "created_at": "2026-10-28T00:00:00.123456789Z",
+          "expires_at": "2026-10-28T00:30:00.123456789Z",
+          "revision": "9007199254740993"
+        }
+      }
+    ],
+    "CreateOrder": [
+      {
+        "result": "CREATE_ORDER_RESULT_CODE_PAYMENT_ACCESS_NOT_APPROVED"
+      },
+      {
+        "result": "CREATE_ORDER_RESULT_CODE_PAYMENT_ACCESS_REVOKED"
+      },
+      {
+        "result": "CREATE_ORDER_RESULT_CODE_METHOD_NOT_AVAILABLE"
+      },
+      {
+        "result": "CREATE_ORDER_RESULT_CODE_IDEMPOTENCY_CONFLICT"
+      }
+    ],
+    "RecordFulfillment": [
+      {
+        "result": "RECORD_FULFILLMENT_RESULT_CODE_IDEMPOTENCY_CONFLICT"
+      },
+      {
+        "result": "RECORD_FULFILLMENT_RESULT_CODE_FULFILLMENT_CONFLICT",
+        "order": {
+          "order_id": "66666666-6666-4666-8666-666666666666",
+          "app_id": "33333333-3333-4333-8333-333333333333",
+          "environment": "ENVIRONMENT_TEST",
+          "merchant_order_id": "sdk-test-order",
+          "buyer_sub": "verified-buyer-sub",
+          "product": {
+            "sku": "coins-100",
+            "version": "9223372036854775807",
+            "name": "100 coins",
+            "kind": "PRODUCT_KIND_CONSUMABLE"
+          },
+          "offer": {
+            "offer_id": "77777777-7777-4777-8777-777777777777",
+            "version": "9223372036854775807",
+            "amount_minor": "9007199254740993",
+            "currency": "XTS",
+            "method": "test_method"
+          },
+          "status": "ORDER_STATUS_PAID",
+          "fulfillment_status": "FULFILLMENT_STATUS_FULFILLED",
+          "created_at": "2026-10-28T00:00:00.123456789Z",
+          "expires_at": "2026-10-28T00:30:00.123456789Z",
+          "revision": "9007199254740993",
+          "paid_at": "2026-10-28T00:00:00.123456789Z"
+        }
+      }
+    ]
+  },
+  "cases": {
+    "CancelOrder": {
+      "path": "/sdk/v1/miniapps/payments/orders/cancel",
+      "request": {
+        "app_id": "33333333-3333-4333-8333-333333333333",
+        "order_id": "66666666-6666-4666-8666-666666666666",
+        "operation_id": "44444444-4444-4444-8444-444444444444"
+      },
+      "response": {
+        "result": "CANCEL_ORDER_RESULT_CODE_OK",
+        "order": {
+          "order_id": "66666666-6666-4666-8666-666666666666",
+          "app_id": "33333333-3333-4333-8333-333333333333",
+          "environment": "ENVIRONMENT_TEST",
+          "merchant_order_id": "sdk-test-order",
+          "buyer_sub": "verified-buyer-sub",
+          "product": {
+            "sku": "coins-100",
+            "version": "9223372036854775807",
+            "name": "100 coins",
+            "kind": "PRODUCT_KIND_CONSUMABLE"
+          },
+          "offer": {
+            "offer_id": "77777777-7777-4777-8777-777777777777",
+            "version": "9223372036854775807",
+            "amount_minor": "9007199254740993",
+            "currency": "XTS",
+            "method": "test_method"
+          },
+          "status": "ORDER_STATUS_CANCELLED",
+          "fulfillment_status": "FULFILLMENT_STATUS_NOT_REQUESTED",
+          "created_at": "2026-10-28T00:00:00.123456789Z",
+          "expires_at": "2026-10-28T00:30:00.123456789Z",
+          "revision": "9007199254740993"
+        }
+      }
+    },
+    "CreateOrder": {
+      "path": "/sdk/v1/miniapps/payments/orders",
+      "request": {
+        "app_id": "33333333-3333-4333-8333-333333333333",
+        "operation_id": "44444444-4444-4444-8444-444444444444",
+        "merchant_order_id": "sdk-test-order",
+        "buyer_sub": "verified-buyer-sub",
+        "product": {
+          "sku": "coins-100",
+          "version": "9223372036854775807",
+          "name": "100 coins",
+          "kind": "PRODUCT_KIND_CONSUMABLE"
+        },
+        "payment": {
+          "amount_minor": "9007199254740993",
+          "currency": "XTS",
+          "method": "test_method"
+        },
+        "test_outcome": "TEST_OUTCOME_SUCCESS"
+      },
+      "response": {
+        "result": "CREATE_ORDER_RESULT_CODE_OK",
+        "checkout": {
+          "order": {
+            "order_id": "66666666-6666-4666-8666-666666666666",
+            "app_id": "33333333-3333-4333-8333-333333333333",
+            "environment": "ENVIRONMENT_TEST",
+            "merchant_order_id": "sdk-test-order",
+            "buyer_sub": "verified-buyer-sub",
+            "product": {
+              "sku": "coins-100",
+              "version": "9223372036854775807",
+              "name": "100 coins",
+              "kind": "PRODUCT_KIND_CONSUMABLE"
+            },
+            "offer": {
+              "offer_id": "77777777-7777-4777-8777-777777777777",
+              "version": "9223372036854775807",
+              "amount_minor": "9007199254740993",
+              "currency": "XTS",
+              "method": "test_method"
+            },
+            "status": "ORDER_STATUS_OPEN",
+            "fulfillment_status": "FULFILLMENT_STATUS_NOT_REQUESTED",
+            "created_at": "2026-10-28T00:00:00.123456789Z",
+            "expires_at": "2026-10-28T00:30:00.123456789Z",
+            "revision": "9007199254740993"
+          },
+          "checkout_session_id": "55555555-5555-4555-8555-555555555555"
+        }
+      }
+    },
+    "GetOrder": {
+      "path": "/sdk/v1/miniapps/payments/orders/get",
+      "request": {
+        "app_id": "33333333-3333-4333-8333-333333333333",
+        "order_id": "66666666-6666-4666-8666-666666666666"
+      },
+      "response": {
+        "order": {
+          "order_id": "66666666-6666-4666-8666-666666666666",
+          "app_id": "33333333-3333-4333-8333-333333333333",
+          "environment": "ENVIRONMENT_TEST",
+          "merchant_order_id": "sdk-test-order",
+          "buyer_sub": "verified-buyer-sub",
+          "product": {
+            "sku": "coins-100",
+            "version": "9223372036854775807",
+            "name": "100 coins",
+            "kind": "PRODUCT_KIND_CONSUMABLE"
+          },
+          "offer": {
+            "offer_id": "77777777-7777-4777-8777-777777777777",
+            "version": "9223372036854775807",
+            "amount_minor": "9007199254740993",
+            "currency": "XTS",
+            "method": "test_method"
+          },
+          "status": "ORDER_STATUS_OPEN",
+          "fulfillment_status": "FULFILLMENT_STATUS_NOT_REQUESTED",
+          "created_at": "2026-10-28T00:00:00.123456789Z",
+          "expires_at": "2026-10-28T00:30:00.123456789Z",
+          "revision": "9007199254740993"
+        }
+      }
+    },
+    "GetOrderByMerchantReference": {
+      "path": "/sdk/v1/miniapps/payments/orders/by-merchant-reference",
+      "request": {
+        "app_id": "33333333-3333-4333-8333-333333333333",
+        "merchant_order_id": "sdk-test-order"
+      },
+      "response": {
+        "order": {
+          "order_id": "66666666-6666-4666-8666-666666666666",
+          "app_id": "33333333-3333-4333-8333-333333333333",
+          "environment": "ENVIRONMENT_TEST",
+          "merchant_order_id": "sdk-test-order",
+          "buyer_sub": "verified-buyer-sub",
+          "product": {
+            "sku": "coins-100",
+            "version": "9223372036854775807",
+            "name": "100 coins",
+            "kind": "PRODUCT_KIND_CONSUMABLE"
+          },
+          "offer": {
+            "offer_id": "77777777-7777-4777-8777-777777777777",
+            "version": "9223372036854775807",
+            "amount_minor": "9007199254740993",
+            "currency": "XTS",
+            "method": "test_method"
+          },
+          "status": "ORDER_STATUS_OPEN",
+          "fulfillment_status": "FULFILLMENT_STATUS_NOT_REQUESTED",
+          "created_at": "2026-10-28T00:00:00.123456789Z",
+          "expires_at": "2026-10-28T00:30:00.123456789Z",
+          "revision": "9007199254740993"
+        }
+      }
+    },
+    "RecordFulfillment": {
+      "path": "/sdk/v1/miniapps/payments/orders/fulfillment",
+      "request": {
+        "app_id": "33333333-3333-4333-8333-333333333333",
+        "order_id": "66666666-6666-4666-8666-666666666666",
+        "operation_id": "44444444-4444-4444-8444-444444444444",
+        "receipt_id": "durable-receipt-1",
+        "sku": "coins-100",
+        "product_version": "9223372036854775807",
+        "buyer_sub": "verified-buyer-sub"
+      },
+      "response": {
+        "result": "RECORD_FULFILLMENT_RESULT_CODE_OK",
+        "order": {
+          "order_id": "66666666-6666-4666-8666-666666666666",
+          "app_id": "33333333-3333-4333-8333-333333333333",
+          "environment": "ENVIRONMENT_TEST",
+          "merchant_order_id": "sdk-test-order",
+          "buyer_sub": "verified-buyer-sub",
+          "product": {
+            "sku": "coins-100",
+            "version": "9223372036854775807",
+            "name": "100 coins",
+            "kind": "PRODUCT_KIND_CONSUMABLE"
+          },
+          "offer": {
+            "offer_id": "77777777-7777-4777-8777-777777777777",
+            "version": "9223372036854775807",
+            "amount_minor": "9007199254740993",
+            "currency": "XTS",
+            "method": "test_method"
+          },
+          "status": "ORDER_STATUS_PAID",
+          "fulfillment_status": "FULFILLMENT_STATUS_FULFILLED",
+          "created_at": "2026-10-28T00:00:00.123456789Z",
+          "expires_at": "2026-10-28T00:30:00.123456789Z",
+          "revision": "9007199254740993",
+          "paid_at": "2026-10-28T00:00:00.123456789Z"
+        }
+      }
+    }
+  },
+  "encoding": "protojson.MarshalOptions{UseProtoNames:true, EmitUnpopulated:false}",
+  "errors": [
+    {
+      "body": {
+        "code": "ERROR_CODE_UNAUTHENTICATED",
+        "detail": "payment request rejected",
+        "request_id": "req-payments",
+        "trace_id": "trace-payments"
+      },
+      "status": 401
+    },
+    {
+      "body": {
+        "code": "ERROR_CODE_PERMISSION_DENIED",
+        "detail": "payment request rejected",
+        "request_id": "req-payments",
+        "trace_id": "trace-payments"
+      },
+      "status": 403
+    },
+    {
+      "body": {
+        "code": "ERROR_CODE_NOT_FOUND",
+        "detail": "payment request rejected",
+        "request_id": "req-payments",
+        "trace_id": "trace-payments"
+      },
+      "status": 404
+    },
+    {
+      "body": {
+        "code": "ERROR_CODE_VALIDATION_FAILED",
+        "detail": "payment request rejected",
+        "request_id": "req-payments",
+        "trace_id": "trace-payments",
+        "field_violations": [
+          {
+            "field": "app_id",
+            "rule": "required",
+            "message": "required"
+          }
+        ]
+      },
+      "status": 422
+    },
+    {
+      "body": {
+        "code": "ERROR_CODE_RATE_LIMITED",
+        "detail": "payment request rejected",
+        "request_id": "req-payments",
+        "trace_id": "trace-payments",
+        "rate_limit": {
+          "scope": "payments",
+          "limit": "9007199254740993",
+          "reset_at": "2026-10-28T00:00:00.123456789Z"
+        }
+      },
+      "status": 429
+    },
+    {
+      "body": {
+        "code": "ERROR_CODE_UNAVAILABLE",
+        "detail": "payment request rejected",
+        "request_id": "req-payments",
+        "trace_id": "trace-payments"
+      },
+      "status": 503
+    }
+  ],
+  "proto_sha256": "8d1b5907b561eff76150cae57449fb04a4b0c4dfd33b7aac41a061a180d79741",
+  "source": "Link Mini App payments merchant API contract"
+}
