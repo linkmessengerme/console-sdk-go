@@ -25,6 +25,8 @@ type RetryConfig struct {
 
 type RequestOptions struct {
 	IdempotencyKey string
+	// RetrySafe marks reads or operations with durable idempotency in their body.
+	RetrySafe bool
 }
 
 type Client struct {
@@ -102,7 +104,7 @@ func (c *Client) DoJSON(ctx context.Context, method, path string, body any, out 
 	}
 
 	attempts := 1
-	if opts.IdempotencyKey != "" && c.retry.MaxRetries > 0 {
+	if (opts.IdempotencyKey != "" || opts.RetrySafe) && c.retry.MaxRetries > 0 {
 		attempts += c.retry.MaxRetries
 	}
 

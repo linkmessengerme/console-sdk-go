@@ -26,7 +26,7 @@ func NewUserClient(base string, client *http.Client, agent string) (*Client, err
 var (
 	ErrInvalidAccessToken = errors.New("link: a valid user access token is required")
 	ErrInvalidUserInfoURL = errors.New("link: UserInfo requires a trusted HTTPS API origin (HTTP only on loopback)")
-	ErrInvalidResponse    = errors.New("link: invalid UserInfo response")
+	ErrInvalidResponse    = errors.New("link: invalid API response")
 	bearerPattern         = regexp.MustCompile(`^[A-Za-z0-9._~+/-]+=*$`)
 )
 

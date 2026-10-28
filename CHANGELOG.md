@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.4.0 — 2026-10-29
+
+- Added Mini Apps merchant payments: create, read, lookup by merchant reference,
+  cancel and record fulfillment, with typed requests, responses and contract enums.
+- Added a separate lazily minted `payments` token cache, preserving OTP scope behavior.
+- Added lossless ProtoJSON int64 handling, durable operation-ID retries and support
+  for gateway ProtoJSON errors alongside the existing OTP error format.
+- Added Test merchant examples and contract fixtures covering business refusals,
+  token scope isolation, refresh and unchanged retry bodies.
+
 ## 0.3.0 — 2026-10-24
 
 - Added standalone `NewLoginClient` and `VerifyIDToken`: Ed25519/JWKS signature,
@@ -22,6 +32,6 @@
 
 - Initial Go SDK skeleton.
 - Added service-key credentials loading from file and JSON.
-- Added HMAC-SHA256 request signing compatible with `sdk-api-gw`.
+- Added HMAC-SHA256 request signing compatible with the Link SDK API.
 - Added OTP send client with phone normalization and idempotency support.
 - Added typed API, authentication, idempotency, rate limit, and connection errors.

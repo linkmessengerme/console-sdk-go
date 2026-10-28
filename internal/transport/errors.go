@@ -89,14 +89,43 @@ func decodeAPIError(resp *http.Response, body []byte) error {
 		apiErr.Code = envelope.Error.Code
 		apiErr.Message = envelope.Error.Message
 		apiErr.Details = envelope.Error.Details
+	} else {
+		// Payments use common.v1.ApiError directly, without the OTP envelope.
+		var wire struct {
+			Code            ErrorCode        `json:"code"`
+			Detail          string           `json:"detail"`
+			RequestID       string           `json:"request_id"`
+			TraceID         string           `json:"trace_id"`
+			FieldViolations []map[string]any `json:"field_violations"`
+			RateLimit       map[string]any   `json:"rate_limit"`
+		}
+		if err := json.Unmarshal(body, &wire); err == nil && wire.Code != "" {
+			apiErr.Code = wire.Code
+			if wire.Detail != "" {
+				apiErr.Message = wire.Detail
+			}
+			if apiErr.RequestID == "" {
+				apiErr.RequestID = wire.RequestID
+			}
+			apiErr.Details = make(map[string]any)
+			if wire.TraceID != "" {
+				apiErr.Details["trace_id"] = wire.TraceID
+			}
+			if wire.FieldViolations != nil {
+				apiErr.Details["field_violations"] = wire.FieldViolations
+			}
+			if wire.RateLimit != nil {
+				apiErr.Details["rate_limit"] = wire.RateLimit
+			}
+		}
 	}
 
 	switch apiErr.Code {
-	case CodeInvalidToken, CodeInsufficientScope:
+	case CodeInvalidToken, CodeInsufficientScope, "ERROR_CODE_UNAUTHENTICATED", "ERROR_CODE_PERMISSION_DENIED":
 		return &AuthenticationError{APIError: apiErr}
 	case CodeIdempotencyKeyConflict:
 		return &IdempotencyError{APIError: apiErr}
-	case CodeTooManyRequests:
+	case CodeTooManyRequests, "ERROR_CODE_RATE_LIMITED":
 		return &RateLimitError{APIError: apiErr, RetryAfter: resp.Header.Get("Retry-After")}
 	default:
 		return apiErr
