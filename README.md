@@ -175,9 +175,25 @@ if err != nil { return err }
 `VerifyIDToken` checks the EdDSA signature and `kid`, configured issuer, exactly
 one allowed audience, matching `azp`, subject, `iat`/`exp`/optional `nbf` (30-second
 clock tolerance), and the expected nonce. It returns `IDTokenClaims` with
-`Issuer`, `Subject`, `ClientID`, `Nonce`, `IssuedAt`, `ExpiresAt` (Go `time.Time`).
+`Issuer`, `Subject`, `ClientID`, `Nonce`, `IssuedAt`, `ExpiresAt` (Go `time.Time`)
+and `DeviceTrust`.
 Access tokens and refreshed ID tokens without nonce are rejected. This verifier
 is for Link Login, not Mini App tokens.
+
+`DeviceTrust` is Link's view of the device that signed in, when device attestation
+is on for the application in Link Console: `link.DeviceTrustVerified` (the genuine
+app on a genuine device), `DeviceTrustUnlocked` (Android with an unlocked
+bootloader), `DeviceTrustMismatch` (a genuine attestation of a different app) or
+`DeviceTrustNone` (nothing is known: an old OS, an emulator, an older mobile SDK).
+It is empty while attestation is off. Link enforces the mode you chose in Console;
+use the value for your own decisions, for example to ask for one more confirmation
+before a sensitive action:
+
+```go
+if claims.DeviceTrust != link.DeviceTrustVerified {
+    // sign the person in, but treat the device as unverified
+}
+```
 
 Use `errors.Is(err, link.ErrInvalidIDToken)` for rejected identity and
 `errors.Is(err, link.ErrLoginKeySource)` for unavailable discovery/signing keys.

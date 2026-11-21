@@ -233,3 +233,33 @@ func TestVerifyIDTokenUntrustedKeySourceAndInputs(t *testing.T) {
 		}
 	}
 }
+
+func TestLoginDeviceTrustIsOptionalAndNeverRejectsAToken(t *testing.T) {
+	cases := []struct {
+		claim any
+		want  string
+	}{
+		{"verified", DeviceTrustVerified}, {"unlocked", DeviceTrustUnlocked},
+		{"mismatch", DeviceTrustMismatch}, {"none", DeviceTrustNone},
+		{"a_later_level", "a_later_level"},
+		{nil, ""}, {7, ""}, {true, ""}, {map[string]any{"level": "verified"}, ""},
+		{"Not A Level", ""}, {"", ""}, {strings.Repeat("a", 33), ""},
+	}
+	for _, tc := range cases {
+		f := newLoginFixture(t)
+		raw := f.token(func(p jwt.MapClaims, _ map[string]any) {
+			if tc.claim != nil {
+				p["device_trust"] = tc.claim
+			}
+			// Claims this SDK version does not know are ignored.
+			p["some_future_claim"] = map[string]any{"version": 2}
+		})
+		claims, err := f.client.VerifyIDToken(context.Background(), raw, testLoginNonce)
+		if err != nil {
+			t.Fatalf("device_trust %v: %v", tc.claim, err)
+		}
+		if claims.DeviceTrust != tc.want || claims.Subject != "user1" {
+			t.Fatalf("device_trust %v: got %q, want %q", tc.claim, claims.DeviceTrust, tc.want)
+		}
+	}
+}

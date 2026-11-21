@@ -27,6 +27,20 @@ var (
 	ErrLoginKeySource     = errors.New("link: Login signing keys unavailable")
 	loginNonce            = regexp.MustCompile(`^[A-Za-z0-9_-]{32,256}$`)
 	loginCompact          = regexp.MustCompile(`^[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+$`)
+	loginDeviceTrust      = regexp.MustCompile(`^[a-z_]{1,32}$`)
+)
+
+// Device trust levels reported in IDTokenClaims.DeviceTrust.
+const (
+	// DeviceTrustVerified: the genuine app on a genuine device.
+	DeviceTrustVerified = "verified"
+	// DeviceTrustUnlocked: a hardware key on a device whose system cannot be
+	// trusted (unlocked bootloader). Android only.
+	DeviceTrustUnlocked = "unlocked"
+	// DeviceTrustMismatch: a genuine attestation of a different app.
+	DeviceTrustMismatch = "mismatch"
+	// DeviceTrustNone: nothing is known about the device.
+	DeviceTrustNone = "none"
 )
 
 // LoginConfig is trusted server configuration, never values from an incoming JWT.
@@ -46,6 +60,11 @@ type IDTokenClaims struct {
 	Nonce     string
 	IssuedAt  time.Time
 	ExpiresAt time.Time
+	// DeviceTrust is Link's view of the device that signed in, from the
+	// device_trust claim: one of the DeviceTrust constants. It is empty while
+	// device attestation is off for the application in Link Console. A value
+	// this SDK version does not know is passed through unchanged.
+	DeviceTrust string
 }
 
 // LoginClient verifies Link Login ID tokens and reads fresh UserInfo without an
@@ -181,7 +200,13 @@ func (c *LoginClient) identity(m jwt.MapClaims, nonce string) (*IDTokenClaims, e
 			return nil, ErrInvalidIDToken
 		}
 	}
-	return &IDTokenClaims{Issuer: issuer, Subject: sub, ClientID: aud[0], Nonce: actualNonce, IssuedAt: time.Unix(i, 0), ExpiresAt: time.Unix(e, 0)}, nil
+	// Informational: a claim of an unexpected shape means "not reported" and
+	// never rejects an otherwise valid token.
+	trust, _ := m["device_trust"].(string)
+	if !loginDeviceTrust.MatchString(trust) {
+		trust = ""
+	}
+	return &IDTokenClaims{Issuer: issuer, Subject: sub, ClientID: aud[0], Nonce: actualNonce, IssuedAt: time.Unix(i, 0), ExpiresAt: time.Unix(e, 0), DeviceTrust: trust}, nil
 }
 
 func (c *LoginClient) key(ctx context.Context, kid string) (ed25519.PublicKey, error) {

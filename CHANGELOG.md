@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Added `IDTokenClaims.DeviceTrust` and the `DeviceTrust*` constants: the
+  `device_trust` claim of Link Login ID tokens (`verified`, `unlocked`, `mismatch`,
+  `none`), empty while device attestation is off for the application.
+
 ## 0.4.0 — 2026-10-29
 
 - Added Mini Apps merchant payments: create, read, lookup by merchant reference,
